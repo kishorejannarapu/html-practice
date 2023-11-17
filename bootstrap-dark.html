@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Theme with Bootstrap</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom dark theme styles -->
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding-top: 56px; /* Adjusted padding to account for the sticky navbar */
+        }
+
+        .navbar {
+            background-color: #343a40;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Shadow border color */
+            box-shadow: 0 4px 2px -2px gray; /* Box shadow for a subtle 3D effect */
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff;
+        }
+
+        .jumbotron {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .card {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        /* Add more custom styling as needed for other Bootstrap components */
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+        <a class="navbar-brand" href="#">Your Logo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">This is a simple dark-themed page with Bootstrap.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+
+    <!-- Card -->
+    <div class="card" style="width: 18rem;">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card Title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
