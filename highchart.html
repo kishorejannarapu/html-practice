@@ -1,0 +1,58 @@
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
+<div>
+    <div id="container" style="position:absolute; left:0px; top:0px;"></div>
+    <div id="addText" style="position:absolute; left:0px; top:0px;"></div>
+</div>
+
+
+$(function() {
+  var chart = new Highcharts.Chart({
+    chart: {
+      renderTo: 'container',
+      type: 'pie',
+      events: {
+        render: function() {
+          // Get chart center coordinates
+          var centerX = this.plotWidth / 2;
+          var centerY = this.plotHeight / 2;
+
+          // Create the label
+          var label = this.renderer
+            .label('Center Text', centerX, centerY)
+            .css({
+              color: '#000',
+              fontSize: '16px',
+            })
+            .attr({
+              fill: 'rgba(255, 255, 255, 0.75)',
+              padding: 8,
+              r: 5,
+            })
+            .add();
+
+          // Position the label in the center of the chart
+          var labelBox = label.getBBox();
+          label.translate(centerX - labelBox.width / 2, centerY - labelBox.height / 2);
+        },
+      },
+    },
+    plotOptions: {
+      pie: {
+        innerSize: '60%',
+      },
+    },
+    title: {
+      text: '',
+    },
+    series: [{
+      data: [
+        ['Firefox', 2262],
+        ['IE7', 3800],
+        ['IE6', 1000],
+        ['Chrome', 1986],
+      ],
+    }, ],
+  });
+
+});
