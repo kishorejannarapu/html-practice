@@ -6,53 +6,48 @@
 </div>
 
 
-$(function() {
-  var chart = new Highcharts.Chart({
+Highcharts.chart('container', {
     chart: {
-      renderTo: 'container',
-      type: 'pie',
-      events: {
-        render: function() {
-          // Get chart center coordinates
-          var centerX = this.plotWidth / 2;
-          var centerY = this.plotHeight / 2;
+        type: 'pie',
+        events: {
+            load: function () {
+                // Get the chart object
+                var chart = this;
 
-          // Create the label
-          var label = this.renderer
-            .label('Center Text', centerX, centerY)
-            .css({
-              color: '#000',
-              fontSize: '16px',
-            })
-            .attr({
-              fill: 'rgba(255, 255, 255, 0.75)',
-              padding: 8,
-              r: 5,
-            })
-            .add();
+                // Add title
+                chart.setTitle({
+                    text: 'My Pie Chart Title', // Set your chart title here
+                    align: 'center', // Center the title
+                    verticalAlign: 'top', // Position the title at the top
+                    y: 20 // Adjust the vertical position as needed
+                });
 
-          // Position the label in the center of the chart
-          var labelBox = label.getBBox();
-          label.translate(centerX - labelBox.width / 2, centerY - labelBox.height / 2);
-        },
-      },
-    },
-    plotOptions: {
-      pie: {
-        innerSize: '60%',
-      },
-    },
-    title: {
-      text: '',
+                // Calculate the center of the pie chart
+                var centerX = chart.plotWidth / 2 + chart.plotLeft;
+                var centerY = chart.plotHeight / 2 + chart.plotTop;
+
+                // Add text to the center
+                chart.renderer.text('Center Text', centerX, centerY)
+                    .css({
+                        color: '#000', // Text color
+                        fontSize: '16px', // Text size
+                        textAlign: 'center'
+                    })
+                    .attr({
+                        zIndex: 10 // Make sure it's on top of the chart
+                    })
+                    .add();
+            }
+        }
     },
     series: [{
-      data: [
-        ['Firefox', 2262],
-        ['IE7', 3800],
-        ['IE6', 1000],
-        ['Chrome', 1986],
-      ],
-    }, ],
-  });
-
+        name: 'My Data',
+        data: [
+            ['Category 1', 30],
+            ['Category 2', 20],
+            // Add more data as needed
+        ]
+    }],
+    // other chart options...
 });
+
