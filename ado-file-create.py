@@ -1,52 +1,31 @@
-from azure.devops.connection import Connection
-from msrest.authentication import BasicAuthentication
-import pprint
+import requests
 
-# Azure DevOps organization URL and personal access token
-organization_url = "https://dev.azure.com/YOUR_ORGANIZATION_NAME"
-personal_access_token = "YOUR_PERSONAL_ACCESS_TOKEN"
+# Replace these with your Azure DevOps credentials
+organization_url = "https://dev.azure.com/your-organization"
+personal_access_token = "your-personal-access-token"
 
-# Project and repository details
-project_name = "YOUR_PROJECT_NAME"
-repository_name = "YOUR_REPOSITORY_NAME"
+# Replace these with the project, repository, and branch names
+project_name = "your-project"
+repository_name = "your-repository"
+branch_name = "your-new-branch"
 
-# Source branch (the branch you want to branch off from)
-source_branch = "main"
+# Set the API URL and headers
+api_url = f"{organization_url}/apis/git/repositories/{project_name}/{repository_name}/refs"
+headers = {
+    "Authorization": f"Basic {base64.b64encode(personal_access_token.encode('utf-8')).decode('utf-8')}",
+    "Content-Type": "application/json",
+}
 
-# New branch name
-new_branch_name = "feature/new-feature-branch"
+# Set the request body
+request_body = {
+    "name": branch_name,
+    "objectId": "refs/heads/main"
+}
 
-def create_new_branch():
-    # Create a connection to the Azure DevOps organization
-    credentials = BasicAuthentication('', personal_access_token)
-    connection = Connection(base_url=organization_url, creds=credentials)
+# Make the PATCH request
+response = requests.patch(api_url, json=request_body, headers=headers)
 
-    # Get the repository
-    repository_client = connection.clients.get_git_client()
-    repository = repository_client.get_repository(project=project_name, repository_id=repository_name)
-
-    # Get the source branch object
-    source_branch_object = repository_client.get_branch(
-        project=project_name, repository_id=repository_name, branch_name=source_branch
-    )
-
-    # Create a new branch
-    new_branch_object = {
-        'name': new_branch_name,
-        'type': 'version',
-        'base_version_descriptor': {
-            'version_type': 'branch',
-            'version': source_branch_object.commit.committer.date,
-            'version_options': 'previousChange',
-            'version_spec': source_branch,
-        }
-    }
-
-    created_branch = repository_client.create_branch(
-        new_branch_object, project=project_name, repository_id=repository_name
-    )
-
-    pprint.pprint(created_branch)
-
-if __name__ == "__main__":
-    create_new_branch()
+if response.status_code == 200:
+    print("Branch created successfully")
+else:
+    print(f"Error creating branch: {response.status_code}")
