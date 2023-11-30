@@ -1,0 +1,16 @@
+import os
+from django.http import HttpResponse
+from django.conf import settings
+from django.shortcuts import render
+
+def download_existing_zip(request):
+    # Replace 'your_zip_file.zip' with the actual name of your zip file
+    zip_file_path = os.path.join(settings.BASE_DIR, 'your_zip_file.zip')
+
+    if os.path.exists(zip_file_path):
+        with open(zip_file_path, 'rb') as zip_file:
+            response = HttpResponse(zip_file.read(), content_type='application/zip')
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(zip_file_path)}"'
+            return response
+    else:
+        return render(request, 'file_not_found.html')  # You can create this template for a custom error page
