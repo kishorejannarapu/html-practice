@@ -1,44 +1,47 @@
 import React from 'react';
-import { Grid, Paper, Avatar, Typography, TextField, Button, Link } from '@mui/material';
+import { Grid, Paper, Avatar, Typography, TextField, Button, Link, styled, useTheme } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
+const ImageContainer = styled(Grid)({
+  background: 'url("your_image_url.jpg")', // Replace with your image URL
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: (theme) => theme.spacing(2),
+});
+
+const FormContainer = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: (theme) => theme.spacing(4),
+});
+
+const useStyles = () => ({
+  avatar: {
+    margin: (theme) => theme.spacing(1),
+    backgroundColor: (theme) => theme.palette.primary.main,
   },
-  imageContainer: {
-    background: 'url("your_image_url.jpg")', // Replace with your image URL
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(2),
-  },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(4),
-  },
-}));
+});
 
 const LoginPage = () => {
+  const theme = useTheme();
   const classes = useStyles();
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main" sx={{ height: '100vh' }}>
       {/* Left side - Image */}
-      <Grid item xs={false} sm={4} md={7} className={classes.imageContainer}>
+      <ImageContainer item xs={false} sm={4} md={7}>
         {/* You can add content or components inside the image container */}
-      </Grid>
+      </ImageContainer>
 
       {/* Right side - Login Form */}
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <FormContainer item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar>
+          <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -82,7 +85,7 @@ const LoginPage = () => {
             </Grid>
           </form>
         </div>
-      </Grid>
+      </FormContainer>
     </Grid>
   );
 };
