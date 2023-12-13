@@ -1,8 +1,8 @@
 import React from 'react';
-import { Grid, Paper, Avatar, Typography, TextField, Button, Link, styled, useTheme } from '@mui/material';
+import { Grid, Paper, Avatar, Typography, TextField, Button, Link, styled, useTheme } from '@mui/system';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-const ImageContainer = styled(Grid)({
+const ImageContainer = styled(Grid)(({ theme }) => ({
   background: 'url("your_image_url.jpg")', // Replace with your image URL
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
@@ -10,15 +10,20 @@ const ImageContainer = styled(Grid)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: (theme) => theme.spacing(2),
-});
+  padding: theme.spacing(2),
+}));
 
-const FormContainer = styled(Grid)({
+const FormContainer = styled(Grid)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: (theme) => theme.spacing(4),
-});
+  padding: theme.spacing(4),
+}));
+
+const AvatarStyled = styled(Avatar)(({ theme }) => ({
+  margin: theme.spacing(1),
+  backgroundColor: theme.palette.primary.main,
+}));
 
 const useStyles = () => ({
   avatar: {
@@ -41,9 +46,9 @@ const LoginPage = () => {
       {/* Right side - Login Form */}
       <FormContainer item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          <AvatarStyled>
             <LockOutlinedIcon />
-          </Avatar>
+          </AvatarStyled>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
