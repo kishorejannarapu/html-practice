@@ -11,6 +11,8 @@ const ImageContainer = styled(Grid)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(2),
+  height: '100vh',
+  margin: 0,  // Resetting margin to 0
 }));
 
 const FormContainer = styled(Grid)(({ theme }) => ({
@@ -21,6 +23,8 @@ const FormContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const AvatarStyled = styled(Avatar)(({ theme }) => ({
+  width: theme.spacing(8), // Adjust the width based on your requirement
+  height: theme.spacing(8), // Adjust the height based on your requirement
   margin: theme.spacing(1),
   backgroundColor: theme.palette.primary.main,
 }));
@@ -37,9 +41,9 @@ const LoginPage = () => {
   const classes = useStyles();
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main">
       {/* Left side - Image */}
-      <ImageContainer item xs={false} sm={4} md={7}>
+      <ImageContainer item xs={12} sm={4} md={7}>
         {/* You can add content or components inside the image container */}
       </ImageContainer>
 
