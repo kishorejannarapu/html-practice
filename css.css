@@ -1,0 +1,104 @@
+  .services {
+    float: right;
+    padding-right: 18px;
+    list-style: none;
+    height: 60px;
+  }
+.nav-item {
+    margin-top: 10px;
+    display: inline-block;
+    color: #ffffff;
+    line-height: 1.6;
+  }
+  .nav-item.disabled {
+    color: #a6a6a6;
+  }
+  .nav-item a.nav-link.active .tab {
+    background: #a4eab8;
+    border-radius: 6px 6px 0px 0px;
+  }
+  .nav-item a.nav-link.active a.nav-link {
+    background: #a4eab8;
+    border-radius: 6px 6px 0px 0px;
+  }
+  .nav-item a.nav-link.active,
+  .nav-item a.nav-link.active:hover {
+    color: #000000;
+    text-decoration: none;
+  }
+  .nav-item a.nav-link.active {
+    color: #000000;
+  }
+  .nav-item a.nav-link.active:hover {
+    color: #000000;
+    text-decoration: none;
+  }
+  .nav-item a.nav-link.active:focus-within {
+    color: #000000;
+  }
+  .nav-item,
+  a.nav-link {
+    cursor: pointer;
+    font-family: 'BAESystemsWeb-Bold';
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s;
+    align: center;
+    text-align: center;
+  }
+  .nav-item a.nav-link.disabled {
+    cursor: default;
+  }
+  .nav-item a.nav-link:hover {
+    color: #43d4cb;
+    text-decoration: none;
+  }
+  .nav-item a.nav-link:focus-within {
+    color: #43d4cb;
+    text-decoration: none;
+  }
+  .nav-item a.nav-link.disabled:hover {
+    color: #a6a6a6;
+    text-decoration: none;
+  }
+  .nav-item .tab {
+    padding: 10px 12px 18px 12px;
+  }
+  .nav-item .underline {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 8px;
+    height: 6px;
+    position: relative;
+    background: #484c55;
+    width: 0px;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+  }
+  .secondary-nav {
+    z-index: 9999;
+    background: #4a4d50;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s;
+    -webkit-transition: visibility 0s, opacity 0.2s;
+  }
+  .nav-item:hover .secondary-nav {
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav-item:hover .underline {
+    -webkit-animation: bounce 0.7s forwards;
+    animation: bounce 0.7s forwards;
+  }
+  .nav-item:focus-within .secondary-nav {
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav-item:focus-within .underline {
+    -webkit-animation: bounce 0.7s forwards;
+    animation: bounce 0.7s forwards;
+  }
