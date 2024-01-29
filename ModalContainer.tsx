@@ -133,3 +133,18 @@ export default connect(
   mapStateToProps,
   mapActionsToProps('closeModal')
 )(ModalContainer);
+
+  handleDelete = id => {
+    this.props.openModal({
+      title: 'Delete Customer?',
+      body: <p>Deleting a customer will permanently remove it.</p>,
+      closeLabel: 'No, Keep Customer',
+      actions: [
+        {
+          callback: () => this.props.deleteCustomer(id),
+          label: 'Yes, Delete Customer',
+          buttonClassName: 'warning'
+        }
+      ]
+    });
+  };
