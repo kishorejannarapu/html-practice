@@ -1,33 +1,60 @@
-import React, { useState } from 'react';
-import { Autocomplete, TextField, Checkbox, Box, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
+const express = require('express');
+const { Pool } = require('pg');
 
-const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+const app = express();
+const port = 3000;
 
-const CustomAutocomplete = () => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+// Configure the PostgreSQL connection pool
+const pool = new Pool({
+  user: 'your_db_user',
+  host: 'your_db_host',
+  database: 'your_db_name',
+  password: 'your_db_password',
+  port: 5432,
+});
 
-  return (
-    <Autocomplete
-      multiple
-      options={options}
-      value={selectedOptions}
-      onChange={(event, newValue) => {
-        setSelectedOptions(newValue);
-      }}
-      renderInput={(params) => <TextField {...params} label="Select Options" variant="outlined" />}
-      renderOption={(props, option, { selected }) => (
-        <ListItem {...props}>
-          <ListItemText primary={option} />
-          {selected ? (
-            <ListItemIcon>
-              <CheckIcon style={{ color: 'green' }} />
-            </ListItemIcon>
-          ) : null}
-        </ListItem>
-      )}
-    />
-  );
+// Endpoint to get counts for different time ranges
+app.get('/counts', async (req, res) => {
+  try {
+    const { groupBy } = req.query;
+    if (!groupBy) {
+      return res.status(400).json({ error: 'Missing groupBy parameter' });
+    }
+
+    const counts = await getCounts(groupBy);
+    res.json(counts);
+  } catch (error) {
+    console.error('Error fetching counts:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Function to get counts for last 7 days, 30 days, and 1 year
+const getCounts = async (groupBy) => {
+  const client = await pool.connect();
+
+  try {
+    const query = `
+      SELECT
+        CASE
+          WHEN current_date - interval '7 days' <= date_column THEN 'last_7_days'
+          WHEN current_date - interval '30 days' <= date_column THEN 'last_30_days'
+          WHEN current_date - interval '1 year' <= date_column THEN 'last_1_year'
+          ELSE 'older'
+        END as time_range,
+        COUNT(*)
+      FROM your_table
+      WHERE current_date - interval '1 year' <= date_column
+      GROUP BY time_range;
+    `;
+
+    const result = await client.query(query);
+    return result.rows;
+  } finally {
+    client.release();
+  }
 };
 
-export default CustomAutocomplete;
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
