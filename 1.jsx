@@ -16,12 +16,13 @@ const pool = new Pool({
 // Endpoint to get counts for different time ranges
 app.get('/counts', async (req, res) => {
   try {
-    const { groupBy } = req.query;
-    if (!groupBy) {
-      return res.status(400).json({ error: 'Missing groupBy parameter' });
+    const { range } = req.query;
+
+    if (!range || !['7days', '30days', '1year'].includes(range)) {
+      return res.status(400).json({ error: 'Invalid or missing range parameter' });
     }
 
-    const counts = await getCounts(groupBy);
+    const counts = await getCounts(range);
     res.json(counts);
   } catch (error) {
     console.error('Error fetching counts:', error);
@@ -29,24 +30,33 @@ app.get('/counts', async (req, res) => {
   }
 });
 
-// Function to get counts for last 7 days, 30 days, and 1 year
-const getCounts = async (groupBy) => {
+// Function to get counts based on the time range
+const getCounts = async (range) => {
   const client = await pool.connect();
 
   try {
-    const query = `
-      SELECT
-        CASE
-          WHEN current_date - interval '7 days' <= date_column THEN 'last_7_days'
-          WHEN current_date - interval '30 days' <= date_column THEN 'last_30_days'
-          WHEN current_date - interval '1 year' <= date_column THEN 'last_1_year'
-          ELSE 'older'
-        END as time_range,
-        COUNT(*)
-      FROM your_table
-      WHERE current_date - interval '1 year' <= date_column
-      GROUP BY time_range;
-    `;
+    let query;
+    if (range === '7days' || range === '30days') {
+      query = `
+        SELECT
+          DATE_TRUNC('day', date_column) AS time_period,
+          COUNT(*) AS count
+        FROM your_table
+        WHERE date_column >= CURRENT_DATE - INTERVAL '${range === '7days' ? '7' : '30'} days'
+        GROUP BY time_period
+        ORDER BY time_period;
+      `;
+    } else if (range === '1year') {
+      query = `
+        SELECT
+          DATE_TRUNC('month', date_column) AS time_period,
+          COUNT(*) AS count
+        FROM your_table
+        WHERE date_column >= CURRENT_DATE - INTERVAL '1 year'
+        GROUP BY time_period
+        ORDER BY time_period;
+      `;
+    }
 
     const result = await client.query(query);
     return result.rows;
